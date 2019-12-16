@@ -52,18 +52,21 @@ public class ScriptRunner {
 	public final static String KEY_CONTEXT         = "context";
 	public final static String KEY_SCRIPT_NAME     = "script_name";
 	public final static String KEY_LOGGER          = "logger";
+	public final static String KEY_DICTIONARY      = "dictionary";
 	public final static String KEY_DICT_ID         = "dictionary_id";
-	public final static String KEY_ENTRIES         	   = "entries";
+	public final static String KEY_ENTRIES         = "entries";
+	
 	
 	public final static String SCRIPT_PATH             = "./ext";
 
-	public static Object executeScript(EntriesWrapper entries, DictionaryContext context,String scriptName, String id){
+	public static Object executeScript(EntriesWrapper entries, DictionaryContext context,String scriptName, AbstractJythonDictionary theDictionary){
 		logger.debug("Executing dictionary script for {} with scriptname {}",  context, scriptName);
 		Map<String, Object> pythonContext = new HashMap<String, Object>();
 		pythonContext.put(KEY_CONTEXT, context);
 		pythonContext.put(KEY_LOGGER, logger);
 		pythonContext.put(KEY_SCRIPT_NAME, scriptName);
-		pythonContext.put(KEY_DICT_ID, id);
+		pythonContext.put(KEY_DICT_ID, theDictionary.getId());
+		pythonContext.put(KEY_DICTIONARY, theDictionary);
 		pythonContext.put(KEY_ENTRIES, entries);
 		
 		String scriptClasspath = "";
@@ -74,7 +77,7 @@ public class ScriptRunner {
 			Bindings bindings = createBindings(pythonContext);
 			return loadLibraryScriptsAndEval(scriptName, se, bindings, scriptClasspath);
 		} catch (IOException e) {
-			logger.error("Error on dictionary script : scriptname {} scriptclasspath {} for dictionary {} ", scriptName, scriptClasspath, id);
+			logger.error("Error on dictionary script : scriptname {} scriptclasspath {} for dictionary {} ", scriptName, scriptClasspath, theDictionary.getId());
 			logger.error("Exception on script ",e);
 			throw new DeployitException(e);
 		}	

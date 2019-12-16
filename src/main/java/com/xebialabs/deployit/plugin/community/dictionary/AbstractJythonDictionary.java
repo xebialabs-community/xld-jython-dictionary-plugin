@@ -51,7 +51,7 @@ public class AbstractJythonDictionary extends Dictionary implements IDictionary 
         logger.debug("get entries for "+this.getId());
         try{
             final EntriesWrapper wrapper = new EntriesWrapper();
-            ScriptRunner.executeScript(wrapper, context, pythonScript, getId());
+            ScriptRunner.executeScript(wrapper, context, pythonScript, this);
             if (wrapper.getValues() == null) {
                 throw new DeployitException("Empty entries for " + pythonScript);
             }

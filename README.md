@@ -65,7 +65,29 @@ A sample configuration is available in the project.
 Done
 
 ```
-## Features
+## Create your own dictionary
+
+1. Declare a new type
+
+In the `synthetic.xml' file, define a new type that extends the `jython.AbstractJythonDictionary` CI
+
+  <type type="github.Dictionary" extends="jython.AbstractJythonDictionary">
+    <property name="pythonScript" hidden="true" default="github.py"/>
+    <property name="entries" kind="map_string_string" hidden="true" required="false"/>
+    <property name="encryptedEntries" kind="map_string_string" hidden="true" password="true" required="false"/>
+    <property name="username" category="Github"/>
+    <property name="password" category="Github" password="true"/>
+    <property name="repository" category="Github"/>
+    <property name="branch" category="Github" default="master"/>
+    <property name="path" category="Github"/>
+  </type>
+
+2. Create the jython file
+
+In the ext/ folder, create the github.py file.
+
+
+
 
 ## References
 
