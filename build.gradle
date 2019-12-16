@@ -33,13 +33,13 @@ dependencies {
 //  compile group: 'com.xebialabs.overthere', name: 'overtherepy', version: '0.0.4'
 }
 
-
+version = "0.0.1"
 if (!project.hasProperty('release.scope')) {
   project.ext['release.scope'] = 'patch'
 }
 
 if (!project.hasProperty('release.useLastTag')) {
-  project.ext['release.useLastTag'] = false
+  project.ext['release.useLastTag'] = true
 }
 
 processResources.configure {
