@@ -1,0 +1,7 @@
+# MOUSSAUD modified {{now}}
+application={{application}}
+version={{version}}
+container={{container}}
+environment={{environment}}
+
+

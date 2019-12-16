@@ -1,0 +1,12 @@
+---
+apiVersion: xl-deploy/v1
+kind: Infrastructure
+spec:
+- directory: Infrastructure/config
+  children:
+  - name: machine1
+    type: overthere.LocalHost
+    os: UNIX
+  - name: machine2
+    type: overthere.LocalHost
+    os: UNIX

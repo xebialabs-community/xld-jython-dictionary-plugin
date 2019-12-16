@@ -1,0 +1,15 @@
+---
+apiVersion: xl-deploy/v1
+kind: Environments
+spec:
+- directory: Environments/config
+  children:
+  - name: deployment_context
+    type: udm.DeploymentContextDictionary
+  - name: env
+    type: udm.Environment
+    members:
+    - Infrastructure/config/machine1
+    - Infrastructure/config/machine2
+    dictionaries:
+    - Environments/config/deployment_context

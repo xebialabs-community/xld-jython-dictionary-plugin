@@ -1,0 +1,26 @@
+---
+apiVersion: xl-deploy/v1
+kind: Applications
+spec:
+- directory: Applications/config
+  children:
+  - name: demo
+    type: udm.Application
+    lastVersion: 1.1.15
+    children:
+    - name: 1.1.12
+      type: udm.DeploymentPackage
+      deployables:
+      - name: demo.txt
+        type: file.File        
+        targetPath: /tmp/foo/{{version}}/{{container}}
+        createTargetPath: True
+        file: !file "artifacts/Applications/config/demo/1.1.12/demo.txt/demo.txt"
+    - name: 1.1.15
+      type: udm.DeploymentPackage
+      deployables:
+      - name: demo.txt
+        type: file.File        
+        targetPath: /tmp/foo/{{version}}/{{container}}
+        createTargetPath: True
+        file: !file "artifacts/Applications/config/demo/1.1.15/demo.txt/demo.txt"
