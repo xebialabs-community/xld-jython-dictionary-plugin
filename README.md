@@ -69,7 +69,9 @@ Done
 
 1. Declare a new type
 
-In the `synthetic.xml' file, define a new type that extends the `jython.AbstractJythonDictionary` CI
+In the `synthetic.xml` file, define a new type that extends the `jython.AbstractJythonDictionary` CI:
+
+```
 
   <type type="github.Dictionary" extends="jython.AbstractJythonDictionary">
     <property name="pythonScript" hidden="true" default="github.py"/>
@@ -81,6 +83,7 @@ In the `synthetic.xml' file, define a new type that extends the `jython.Abstract
     <property name="branch" category="Github" default="master"/>
     <property name="path" category="Github"/>
   </type>
+```
 
 2. Create the jython file
 
