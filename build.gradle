@@ -33,7 +33,6 @@ dependencies {
 //  compile group: 'com.xebialabs.overthere', name: 'overtherepy', version: '0.0.4'
 }
 
-version = "0.0.1"
 if (!project.hasProperty('release.scope')) {
   project.ext['release.scope'] = 'patch'
 }

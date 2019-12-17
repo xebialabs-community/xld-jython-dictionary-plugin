@@ -85,9 +85,65 @@ In the `synthetic.xml' file, define a new type that extends the `jython.Abstract
 2. Create the jython file
 
 In the ext/ folder, create the github.py file.
+This is default content that load an empty map in the dictionary.s
+
+```
+values = {}
+
+if logger.isDebugEnabled():
+    logger.debug("dict values {0}: {1}".format(dictionary_id, values))
+
+entries.setValues(values)
+```
+
+3. Install additional libraries
+
+For github, go to https://github.com/PyGithub/PyGithub/releases and dowload the latest release.
+
+```
+wget https://github.com/PyGithub/PyGithub/archive/v1.28.zip
+unzip v1.28.zip
+cp -r PyGithub-1.28/github $XLD_HOME/ext
+```
+4. Implement the lookup action
+
+Note: _this sample use an old GitHub Api and should be used only as a sample code_
+
+````
+from github import Github
+
+username = dictionary.getProperty('username')
+password = dictionary.getProperty('password')
+repository = dictionary.getProperty('repository')
+branch = dictionary.getProperty('branch')
+path = dictionary.getProperty('path')
 
 
+# First create a Github instance:
+print "open a connection to github using the '%s' username" % username
+g = Github(username, password)
+print "get '%s' repository" % repository
+repo = g.get_user().get_repo(repository)
+print "get content of '%s' in '%s' branch " % (path, branch)
+contents = repo.get_contents(path, branch)
+# print "decoded_content", contents.decoded_content
 
+values = {}
+for line in contents.decoded_content.split('\n'):
+    line = line.rstrip()  # removes trailing whitespace and '\n' chars
+
+    if "=" not in line: continue  # skips blanks and comments w/o =
+    if line.startswith("#"): continue  # skips comments which contain =
+
+    k, v = line.split("=", 1)
+    values[k] = v
+
+
+if logger.isDebugEnabled():
+    logger.debug("dict values {0}: {1}".format(dictionary_id, values))
+
+entries.setValues(values)
+```
 
 ## References
 
