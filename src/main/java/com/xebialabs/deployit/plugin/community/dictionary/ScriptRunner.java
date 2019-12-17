@@ -36,6 +36,8 @@ import javax.script.SimpleBindings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import scala.languageFeature.reflectiveCalls;
+
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -58,6 +60,9 @@ public class ScriptRunner {
 	
 	
 	public final static String SCRIPT_PATH             = "./ext";
+
+	private final static ScriptEngine JYTHON_ENGINE = initJythonEngine();
+	
 
 	public static Object executeScript(EntriesWrapper entries, DictionaryContext context,String scriptName, AbstractJythonDictionary theDictionary){
 		logger.debug("Executing dictionary script for {} with scriptname {}",  context, scriptName);
@@ -83,7 +88,10 @@ public class ScriptRunner {
 		}	
 	}
 
-	protected static Object loadLibraryScriptsAndEval(String scriptName, ScriptEngine scriptEngine, Bindings localBindings, String scriptClasspath){
+	
+
+	protected static Object loadLibraryScriptsAndEval(String scriptName, ScriptEngine scriptEngine,
+			Bindings localBindings, String scriptClasspath) {
 		Bindings origEngineBindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
 		String script = "";
 		try {
@@ -93,11 +101,11 @@ public class ScriptRunner {
 			engineAndLocalScope.putAll(localBindings);
 			scriptEngine.setBindings(engineAndLocalScope, ScriptContext.ENGINE_SCOPE);
 			loadLibraryScripts(getLibraryScripts(scriptClasspath), scriptEngine);
-			logger.debug("Executing script " + scriptName);
+			logger.debug("Executing script " + scriptName);			
 			if (logger.isTraceEnabled()) {
 				logger.trace(script);
-			}
-			scriptEngine.eval(script);
+			}			
+			scriptEngine.eval(script);			
 			return scriptEngine.get("entries");
 		} catch (IOException e){
 			logger.error("IOException caught during script load : {}", scriptName, e);
@@ -116,9 +124,9 @@ public class ScriptRunner {
 		return bindings;
 	}
 
+
 	protected static ScriptEngine loadScriptEngine(List<String> libraryScripts) throws IOException {
-		ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("jython");
-		checkNotNull(scriptEngine, "Jython Script Engine cannot be initialized. Make sure jython jars are on the class path.");
+		ScriptEngine scriptEngine = ScriptRunner.JYTHON_ENGINE;		
 		loadLibraryScripts(libraryScripts, scriptEngine);
 		return scriptEngine;
 	}
@@ -178,5 +186,11 @@ public class ScriptRunner {
 		return scripts;
 	}
 	
+	private static ScriptEngine initJythonEngine() {
+		ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("jython");
+		checkNotNull(scriptEngine, "Jython Script Engine cannot be initialized. Make sure jython jars are on the class path.");
+		return scriptEngine;
+	}
+
 	protected static final Logger logger = LoggerFactory.getLogger(ScriptRunner.class);
 }
