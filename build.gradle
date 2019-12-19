@@ -23,11 +23,15 @@ repositories {
 
 def apiVersion = "2019.3.2"
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
 dependencies {
    //jython ":requests:2.19.1"
    //jython ":certifi:2019.9.11"
    compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"  
-   compile "com.xebialabs.deployit:engine-api:$apiVersion"   
+   compile "com.xebialabs.deployit:engine-api:$apiVersion"     
    compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
 //  compile group: 'com.xebialabs.overthere', name: 'overtherepy', version: '0.0.4'
 }
